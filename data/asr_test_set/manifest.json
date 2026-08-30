@@ -1,0 +1,47 @@
+[
+  {
+    "audio": "clean_01.ogg",
+    "expected": "मेरी बेटी का नाम अनीशा है",
+    "category": "clean"
+  },
+  {
+    "audio": "clean_02.ogg",
+    "expected": "उसकी date of birth 15 March 2018 है",
+    "category": "clean"
+  },
+  {
+    "audio": "clean_03.ogg",
+    "expected": "मैं अपनी बेटी के लिए सुकन्या समृद्धि खाता खोलना चाहता हूँ",
+    "category": "clean"
+  },
+  {
+    "audio": "codeswitch_01.ogg",
+    "expected": "उसकी date of birth 15 March 2018 है",
+    "category": "code_switch"
+  },
+  {
+    "audio": "codeswitch_02.ogg",
+    "expected": "Guardian ka Aadhaar number बता रहा हूँ",
+    "category": "code_switch"
+  },
+  {
+    "audio": "codeswitch_03.ogg",
+    "expected": "Mujhe Sukanya Samriddhi account open करना है",
+    "category": "code_switch"
+  },
+  {
+    "audio": "numeric_01.ogg",
+    "expected": "15 March 2018",
+    "category": "numeric_date"
+  },
+  {
+    "audio": "numeric_02.ogg",
+    "expected": "पंद्रह March दो हजार अठारह",
+    "category": "numeric_date"
+  },
+  {
+    "audio": "numeric_03.ogg",
+    "expected": "six four two one eight three nine seven two four one five",
+    "category": "numeric_date"
+  }
+]

@@ -1,0 +1,10 @@
+model,sample,category,wer,expected,predicted
+whisper-medium,clean_01,clean,0.00,मेरी बेटी का नाम अनीशा है,मेरी बेटी का नाम अनीशा है
+whisper-medium,clean_02,clean,0.25,उसकी date of birth 15 March 2018 है,उसकी date of birth 15th March 2018 है।
+whisper-medium,clean_03,clean,0.55,मैं अपनी बेटी के लिए सुकन्या समृद्धि खाता खोलना चाहता हूँ,मैं अपने बेटी के लिए सुकण्यां समर्थी काथा खुणना चाहता हु।
+whisper-medium,codeswitch_01,code_switch,0.25,उसकी date of birth 15 March 2018 है,उसकी date of birth 15th March 2018
+whisper-medium,codeswitch_02,code_switch,0.71,Guardian ka Aadhaar number बता रहा हूँ,गाडियन का आदार नेमबर बता रहा हो
+whisper-medium,codeswitch_03,code_switch,0.71,Mujhe Sukanya Samriddhi account open करना है,मुझे सुकन्या सम्रत्धी एकांट अपन करना है
+whisper-medium,numeric_01,numeric_date,0.00,15 March 2018,15 March 2018
+whisper-medium,numeric_02,numeric_date,0.80,पंद्रह March दो हजार अठारह,पंद्रह माज दोहाजार अटारह
+whisper-medium,numeric_03,numeric_date,1.00,six four two one eight three nine seven two four one five,642183972415

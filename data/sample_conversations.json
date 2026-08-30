@@ -1,0 +1,30 @@
+{
+  "examples": [
+    {
+      "field": "depositor_name",
+      "user_utterances": [
+        "Meri beti ka naam Ananya Sharma hai",
+        "Ananya Sharma",
+        "Uska naam Ananya hai"
+      ]
+    },
+
+    {
+      "field": "guardian_relationship",
+      "user_utterances": [
+        "Main uska pita hoon",
+        "Main uska father hoon",
+        "Bachchi meri beti hai"
+      ]
+    },
+
+    {
+      "field": "depositor_dob",
+      "user_utterances": [
+        "15 March 2018",
+        "Pandrah March do hazaar atharah",
+        "Uska janam 15 March 2018 ko hua tha"
+      ]
+    }
+  ]
+}

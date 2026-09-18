@@ -47,3 +47,4 @@ transformers_cache/
 data/asr_test_set/asr_results_*.csv
 data/asr_test_set/phase1.2/asr_results_*.csv
 data/asr_test_set/phase1.2/asr_comparison_*.csv
+data/.nlu_cache.json

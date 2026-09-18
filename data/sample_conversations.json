@@ -1,30 +1,291 @@
 {
   "examples": [
     {
-      "field": "depositor_name",
-      "user_utterances": [
-        "Meri beti ka naam Ananya Sharma hai",
-        "Ananya Sharma",
-        "Uska naam Ananya hai"
-      ]
+      "transcript": "Meri beti ka naam Ananya Sharma hai",
+      "expected": {
+        "account_holder_name": "Ananya Sharma"
+      }
     },
-
     {
-      "field": "guardian_relationship",
-      "user_utterances": [
-        "Main uska pita hoon",
-        "Main uska father hoon",
-        "Bachchi meri beti hai"
-      ]
+      "transcript": "Uska janam 15 March 2018 ko hua tha",
+      "expected": {
+        "date_of_birth": "2018-03-15"
+      }
     },
-
     {
-      "field": "depositor_dob",
-      "user_utterances": [
-        "15 March 2018",
-        "Pandrah March do hazaar atharah",
-        "Uska janam 15 March 2018 ko hua tha"
-      ]
+      "transcript": "Main uski maa hoon",
+      "expected": {
+        "guardian_relationship": "mother"
+      }
+    },
+    {
+      "transcript": "Main uska father hoon",
+      "expected": {
+        "guardian_relationship": "father"
+      }
+    },
+    {
+      "transcript": "Bachchi ka naam Kavya Verma hai",
+      "expected": {
+        "account_holder_name": "Kavya Verma"
+      }
+    },
+    {
+      "transcript": "Janam tareekh 7 April 2019 hai",
+      "expected": {
+        "date_of_birth": "2019-04-07"
+      }
+    },
+    {
+      "transcript": "Mera mobile number 9876543210 hai",
+      "expected": {
+        "mobile_number": "9876543210"
+      }
+    },
+    {
+      "transcript": "Meri beti ka naam Ananya Sharma hai aur uska janam 15 March 2018 ko hua tha",
+      "expected": {
+        "account_holder_name": "Ananya Sharma",
+        "date_of_birth": "2018-03-15"
+      }
+    },
+    {
+      "transcript": "Main Sita Sharma uski maa hoon",
+      "expected": {
+        "guardian_full_name": "Sita Sharma",
+        "guardian_relationship": "mother"
+      }
+    },
+    {
+      "transcript": "Mujhe Sukanya account kholna hai",
+      "expected": {}
+    },
+    {
+      "transcript": "Nahi, naam Ananya Sharma nahi, Kavya Sharma hai",
+      "expected": {
+        "account_holder_name": "Kavya Sharma"
+      }
+    },
+    {
+      "transcript": "Meri beti ka naam Diya Patel hai",
+      "expected": {
+        "account_holder_name": "Diya Patel"
+      }
+    },
+    {
+      "transcript": "Uska janam 12 October 2017 ko hua tha",
+      "expected": {
+        "date_of_birth": "2017-10-12"
+      }
+    },
+    {
+      "transcript": "Main uske pita Rajesh Patel hoon",
+      "expected": {
+        "guardian_full_name": "Rajesh Patel",
+        "guardian_relationship": "father"
+      }
+    },
+    {
+      "transcript": "Shuruaat mein paanch sau rupaye cash jama karenge",
+      "expected": {
+        "initial_deposit_amount": "500",
+        "deposit_mode": "cash"
+      }
+    },
+    {
+      "transcript": "Bank ka naam State Bank of India hai",
+      "expected": {
+        "bank_name": "State Bank of India"
+      }
+    },
+    {
+      "transcript": "Branch name Connaught Place New Delhi hai",
+      "expected": {
+        "branch_name": "Connaught Place New Delhi"
+      }
+    },
+    {
+      "transcript": "Guardian ka Aadhaar number 1234 5678 9012 hai",
+      "expected": {
+        "guardian_aadhaar": "123456789012"
+      }
+    },
+    {
+      "transcript": "Mera PAN number ABCDE1234F hai",
+      "expected": {
+        "guardian_pan": "ABCDE1234F"
+      }
+    },
+    {
+      "transcript": "Vartamaan pata Flat 101 Shanti Niketan Lucknow hai",
+      "expected": {
+        "present_address": "Flat 101 Shanti Niketan Lucknow"
+      }
+    },
+    {
+      "transcript": "Meri beti Pooja Gupta ka janam 25 December 2016 ko hua aur mobile 9811223344 hai",
+      "expected": {
+        "account_holder_name": "Pooja Gupta",
+        "date_of_birth": "2016-12-25",
+        "mobile_number": "9811223344"
+      }
+    },
+    {
+      "transcript": "Main Anita Gupta uski mother hoon aur initial amount 2000 rupaye cash dungi",
+      "expected": {
+        "guardian_full_name": "Anita Gupta",
+        "guardian_relationship": "mother",
+        "initial_deposit_amount": "2000",
+        "deposit_mode": "cash"
+      }
+    },
+    {
+      "transcript": "Nahi, mobile number 9876543210 nahi hai, naya number 9123456789 hai",
+      "form_state": {
+        "mobile_number": "9876543210"
+      },
+      "expected": {
+        "mobile_number": "9123456789"
+      }
+    },
+    {
+      "transcript": "Galti se father bola, main uski maa Meena Devi hoon",
+      "form_state": {
+        "guardian_relationship": "father"
+      },
+      "expected": {
+        "guardian_relationship": "mother",
+        "guardian_full_name": "Meena Devi"
+      }
+    },
+    {
+      "transcript": "Deposit amount change karke 1500 rupaye karna hai",
+      "form_state": {
+        "initial_deposit_amount": "500"
+      },
+      "expected": {
+        "initial_deposit_amount": "1500"
+      }
+    },
+    {
+      "transcript": "Kya Sukanya Samriddhi Yojana mein tax benefit milta hai?",
+      "expected": {}
+    },
+    {
+      "transcript": "Account kholne ke liye kitna samay lagta hai?",
+      "expected": {}
+    },
+    {
+      "transcript": "Namaste, mujhe jankari chahiye",
+      "expected": {}
+    },
+    {
+      "transcript": "Aaj bank band hai kya?",
+      "expected": {}
+    },
+    {
+      "transcript": "Mera mobile number 12345 hai",
+      "expected": {}
+    },
+    {
+      "transcript": "Janam tithi 15 March",
+      "expected": {}
+    },
+    {
+      "transcript": "Aadhaar number 123456 hai",
+      "expected": {}
+    },
+    {
+      "transcript": "Deposit amount 50 rupaye hai",
+      "expected": {}
+    },
+    {
+      "transcript": "Cheque ki date 20 March 2026 hai",
+      "form_state": {
+        "deposit_mode": "cheque"
+      },
+      "expected": {
+        "instrument_date": "2026-03-20"
+      }
+    },
+    {
+      "transcript": "Demand draft ki date 10 April 2026 hai",
+      "form_state": {
+        "deposit_mode": "dd"
+      },
+      "expected": {
+        "instrument_date": "2026-04-10"
+      }
+    },
+    {
+      "transcript": "Mera permanent address House 12 Rampur Varanasi hai",
+      "form_state": {
+        "permanent_same_as_present": false
+      },
+      "expected": {
+        "permanent_address": "House 12 Rampur Varanasi"
+      }
+    },
+    {
+      "transcript": "Haan permanent address aur vartamaan pata same hai",
+      "expected": {
+        "permanent_same_as_present": true
+      }
+    },
+    {
+      "transcript": "Nahi permanent address alag hai",
+      "expected": {
+        "permanent_same_as_present": false
+      }
+    },
+    {
+      "transcript": "Haan bachchi ke naam par koi doosra Sukanya account nahi hai",
+      "expected": {
+        "existing_account_declaration": true
+      }
+    },
+    {
+      "transcript": "Hum dono Bharat ke niwasi nagrik hain",
+      "expected": {
+        "residency_citizenship_declaration": true
+      }
+    },
+    {
+      "transcript": "Main yojana ke sabhi niyamon ko sweekar karta hoon",
+      "expected": {
+        "terms_acceptance": true
+      }
+    },
+    {
+      "transcript": "ID proof ke liye voter id card de rahe hain",
+      "expected": {
+        "identification_proof_type": "voter_id"
+      }
+    },
+    {
+      "transcript": "Address proof ke liye driving licence denge",
+      "expected": {
+        "address_proof_type": "driving_license"
+      }
+    },
+    {
+      "transcript": "Khata guardian chalayenge jab tak bachchi 18 saal ki nahi hoti",
+      "expected": {
+        "account_operation": "guardian_until_majority"
+      }
+    },
+    {
+      "transcript": "Guardian ke pita ka naam Suresh Sharma hai",
+      "expected": {
+        "guardian_parent_spouse_name": "Suresh Sharma"
+      }
+    },
+    {
+      "transcript": "Birth certificate number BC-123456 hai aur issue date 10 January 2019 hai",
+      "expected": {
+        "birth_cert_number": "BC-123456",
+        "birth_cert_issue_date": "2019-01-10"
+      }
     }
   ]
 }

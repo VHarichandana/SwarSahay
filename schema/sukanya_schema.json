@@ -1,0 +1,648 @@
+{
+  "form": {
+    "id": "sukanya_form_1",
+    "name": "Sukanya Samriddhi Account - Form 1",
+    "version": "MVP-1",
+    "scheme": "Sukanya Samriddhi Yojana",
+    "language": "Hindi",
+    "country": "India"
+  },
+
+  "sections": [
+    {
+      "id": "application",
+      "name": "Application Details",
+      "fields": [
+        {
+          "id": "bank_name",
+          "label": "Bank Name",
+          "type": "string",
+          "required": true,
+          "status": "REQUIRED",
+          "voice_notes": "For MVP, bank can default to State Bank of India as shown in the selected form."
+        },
+        {
+          "id": "branch_name",
+          "label": "Branch Name",
+          "type": "string",
+          "required": true,
+          "status": "REQUIRED"
+        },
+        {
+          "id": "initial_deposit_amount",
+          "label": "Initial Subscription Amount",
+          "type": "number",
+          "required": true,
+          "status": "REQUIRED",
+          "validation": {
+            "min": 250,
+            "max": 150000,
+            "currency": "INR"
+          },
+          "voice_notes": "Normalize spoken amounts such as 'five hundred rupees', 'paanch sau rupaye', or 'one thousand' into numeric INR."
+        },
+        {
+          "id": "deposit_mode",
+          "label": "Payment Mode",
+          "type": "enum",
+          "options": [
+            "cash",
+            "cheque",
+            "dd"
+          ],
+          "required": true,
+          "status": "REQUIRED"
+        },
+        {
+          "id": "instrument_date",
+          "label": "Cheque/DD Date",
+          "type": "date",
+          "required": false,
+          "status": "CONDITIONAL",
+          "conditional_on": {
+            "field": "deposit_mode",
+            "operator": "in",
+            "value": [
+              "cheque",
+              "dd"
+            ]
+          },
+          "voice_notes": "Ask only when payment mode is cheque or DD."
+        }
+      ]
+    },
+
+    {
+      "id": "depositor",
+      "name": "Depositor Details",
+      "fields": [
+        {
+          "id": "account_holder_name",
+          "label": "Name of Depositor (Girl Child)",
+          "type": "string",
+          "required": true,
+          "status": "REQUIRED",
+          "normalization": "person_name",
+          "voice_notes": "Name transliteration may be ambiguous in Hindi/English mix. Always read the name back for confirmation."
+        },
+        {
+          "id": "date_of_birth",
+          "label": "Date of Birth",
+          "type": "date",
+          "required": true,
+          "status": "REQUIRED",
+          "validation": {
+            "format": "YYYY-MM-DD",
+            "valid_date": true
+          },
+          "normalization": "spoken_date",
+          "voice_notes": "High ambiguity. Support expressions such as '15 March 2018', 'March 15 2018', '15/3/2018', and Hindi date expressions. Never guess a missing year."
+        },
+        {
+          "id": "date_of_birth_words",
+          "label": "Date of Birth in Words",
+          "type": "string",
+          "required": false,
+          "status": "DERIVED",
+          "derived_from": "date_of_birth"
+        }
+      ]
+    },
+
+    {
+      "id": "guardian",
+      "name": "Guardian Details",
+      "fields": [
+        {
+          "id": "guardian_full_name",
+          "label": "Name of Guardian",
+          "type": "string",
+          "required": true,
+          "status": "REQUIRED",
+          "normalization": "person_name",
+          "voice_notes": "Confirm spelling when speech recognition is uncertain."
+        },
+        {
+          "id": "guardian_relationship",
+          "label": "Guardian Relationship to Depositor",
+          "type": "enum",
+          "options": [
+            "father",
+            "mother",
+            "husband",
+            "legal_guardian"
+          ],
+          "required": true,
+          "status": "REQUIRED",
+          "voice_notes": "Map Hindi expressions such as 'pita', 'father', 'maa', 'mother' to the controlled values."
+        },
+        {
+          "id": "guardian_parent_spouse_name",
+          "label": "Husband/Father/Mother's Name",
+          "type": "string",
+          "required": true,
+          "status": "REQUIRED",
+          "normalization": "person_name",
+          "voice_notes": "Clarify whose name is being provided according to the guardian relationship."
+        },
+        {
+          "id": "guardian_dob",
+          "label": "Guardian Date of Birth",
+          "type": "date",
+          "required": true,
+          "status": "REQUIRED",
+          "validation": {
+            "format": "YYYY-MM-DD",
+            "valid_date": true
+          },
+          "normalization": "spoken_date",
+          "voice_notes": "Normalize spoken dates and read the normalized date back for confirmation."
+        },
+        {
+          "id": "guardian_dob_words",
+          "label": "Guardian Date of Birth in Words",
+          "type": "string",
+          "required": false,
+          "status": "DERIVED",
+          "derived_from": "guardian_dob"
+        },
+        {
+          "id": "guardian_aadhaar",
+          "label": "Aadhaar Number of Guardian",
+          "type": "string",
+          "required": true,
+          "status": "REQUIRED",
+          "sensitive": true,
+          "validation": {
+            "regex": "^[0-9]{12}$"
+          },
+          "normalization": "spoken_digits",
+          "voice_notes": "Users may speak digits individually or in groups. Normalize to exactly 12 digits and read back carefully for confirmation."
+        },
+        {
+          "id": "guardian_pan",
+          "label": "PAN of Guardian",
+          "type": "string",
+          "required": false,
+          "status": "CONDITIONAL",
+          "sensitive": true,
+          "validation": {
+            "regex": "^[A-Z]{5}[0-9]{4}[A-Z]$"
+          },
+          "normalization": "spoken_alphanumeric",
+          "voice_notes": "PAN is not treated as universally required by the MVP schema. Collect when applicable/provided. Validate format only; do not perform external verification."
+        }
+      ]
+    },
+
+    {
+      "id": "address_contact",
+      "name": "Address and Contact Details",
+      "fields": [
+        {
+          "id": "present_address",
+          "label": "Present Address",
+          "type": "string",
+          "required": true,
+          "status": "REQUIRED",
+          "voice_notes": "Long free-text field. Collect in logical parts such as house number, street/locality, city, district, state and PIN."
+        },
+        {
+          "id": "permanent_same_as_present",
+          "label": "Permanent Address Same as Present Address",
+          "type": "boolean",
+          "required": true,
+          "status": "REQUIRED",
+          "voice_notes": "Ask whether permanent address is the same as present address. If yes, copy present_address to permanent_address after confirmation."
+        },
+        {
+          "id": "permanent_address",
+          "label": "Permanent Address",
+          "type": "string",
+          "required": false,
+          "status": "CONDITIONAL",
+          "conditional_on": {
+            "field": "permanent_same_as_present",
+            "operator": "equals",
+            "value": false
+          },
+          "voice_notes": "Ask only when permanent_same_as_present is false."
+        },
+        {
+          "id": "telephone_number",
+          "label": "Telephone Number",
+          "type": "string",
+          "required": false,
+          "status": "OPTIONAL",
+          "normalization": "spoken_digits"
+        },
+        {
+          "id": "mobile_number",
+          "label": "Mobile Number",
+          "type": "string",
+          "required": true,
+          "status": "REQUIRED",
+          "validation": {
+            "regex": "^[6-9][0-9]{9}$"
+          },
+          "normalization": "spoken_digits",
+          "voice_notes": "Normalize spoken digits into a 10-digit Indian mobile number."
+        },
+        {
+          "id": "email",
+          "label": "Email ID",
+          "type": "string",
+          "required": false,
+          "status": "OPTIONAL",
+          "normalization": "email"
+        }
+      ]
+    },
+
+    {
+      "id": "account_type",
+      "name": "Account Type",
+      "fields": [
+        {
+          "id": "account_type",
+          "label": "Type of Account",
+          "type": "enum",
+          "options": [
+            "minor"
+          ],
+          "required": true,
+          "status": "DERIVED",
+          "default": "minor",
+          "voice_notes": "For this form, account type is Minor. Do not ask the user unless required for confirmation."
+        }
+      ]
+    },
+
+    {
+      "id": "birth_certificate_kyc",
+      "name": "Birth Certificate and KYC",
+      "fields": [
+        {
+          "id": "birth_cert_number",
+          "label": "Birth Certificate Number",
+          "type": "string",
+          "required": true,
+          "status": "REQUIRED"
+        },
+        {
+          "id": "birth_cert_issue_date",
+          "label": "Birth Certificate Date of Issue",
+          "type": "date",
+          "required": true,
+          "status": "REQUIRED",
+          "validation": {
+            "format": "YYYY-MM-DD",
+            "valid_date": true
+          },
+          "normalization": "spoken_date"
+        },
+        {
+          "id": "birth_cert_issuing_authority",
+          "label": "Birth Certificate Issuing Authority",
+          "type": "string",
+          "required": true,
+          "status": "REQUIRED"
+        },
+        {
+          "id": "identification_proof_type",
+          "label": "Proof of Identification",
+          "type": "enum",
+          "options": [
+            "passport",
+            "driving_license",
+            "voter_id",
+            "nrega_job_card",
+            "npr_letter"
+          ],
+          "required": true,
+          "status": "REQUIRED",
+          "voice_notes": "Collect the type of identification document attached. Do not claim that the document has been externally verified."
+        },
+        {
+          "id": "address_proof_type",
+          "label": "Address Proof",
+          "type": "enum",
+          "options": [
+            "passport",
+            "driving_license",
+            "voter_id",
+            "nrega_job_card",
+            "npr_letter"
+          ],
+          "required": true,
+          "status": "REQUIRED",
+          "voice_notes": "Collect the type of address document attached."
+        }
+      ]
+    },
+
+    {
+      "id": "account_operation",
+      "name": "Account Operation",
+      "fields": [
+        {
+          "id": "account_operation",
+          "label": "Operation of Account",
+          "type": "enum",
+          "options": [
+            "guardian_until_majority",
+            "depositor_after_majority"
+          ],
+          "required": true,
+          "status": "REQUIRED",
+          "voice_notes": "Present the two choices clearly and allow the user to confirm."
+        }
+      ]
+    },
+
+    {
+      "id": "declarations",
+      "name": "Declarations",
+      "fields": [
+        {
+          "id": "existing_account_declaration",
+          "label": "Confirmation that no other Sukanya Samriddhi Account exists for the depositor",
+          "type": "boolean",
+          "required": true,
+          "status": "CONFIRMATION",
+          "voice_notes": "Must be explicitly confirmed by the user. Never infer this value."
+        },
+        {
+          "id": "residency_citizenship_declaration",
+          "label": "Confirmation that guardian and depositor are resident citizens of India",
+          "type": "boolean",
+          "required": true,
+          "status": "CONFIRMATION",
+          "voice_notes": "Must be explicitly confirmed by the user."
+        },
+        {
+          "id": "terms_acceptance",
+          "label": "Undertaking to abide by scheme provisions and applicable rules",
+          "type": "boolean",
+          "required": true,
+          "status": "CONFIRMATION",
+          "voice_notes": "Read a concise explanation before asking for confirmation."
+        }
+      ]
+    },
+
+    {
+      "id": "nomination",
+      "name": "Nomination",
+      "fields": [
+        {
+          "id": "nomination_present",
+          "label": "Nomination Information Provided",
+          "type": "boolean",
+          "required": false,
+          "status": "OPTIONAL",
+          "voice_notes": "For MVP, allow the user to indicate whether nomination information is being provided."
+        },
+        {
+          "id": "nominees",
+          "label": "Nominees",
+          "type": "array",
+          "required": false,
+          "status": "OPTIONAL",
+          "max_items": 4,
+          "item_schema": {
+            "name": {
+              "type": "string",
+              "required": true,
+              "status": "REQUIRED"
+            },
+            "relationship": {
+              "type": "string",
+              "required": true,
+              "status": "REQUIRED"
+            },
+            "address": {
+              "type": "string",
+              "required": true,
+              "status": "REQUIRED"
+            },
+            "aadhaar": {
+              "type": "string",
+              "required": false,
+              "status": "OPTIONAL",
+              "sensitive": true,
+              "validation": {
+                "regex": "^[0-9]{12}$"
+              },
+              "normalization": "spoken_digits"
+            },
+            "date_of_birth": {
+              "type": "date",
+              "required": false,
+              "status": "CONDITIONAL",
+              "conditional_on": {
+                "field": "nominee_is_minor",
+                "operator": "equals",
+                "value": true
+              },
+              "validation": {
+                "format": "YYYY-MM-DD",
+                "valid_date": true
+              },
+              "normalization": "spoken_date"
+            },
+            "share_of_entitlement": {
+              "type": "number",
+              "required": true,
+              "status": "REQUIRED",
+              "validation": {
+                "min": 0,
+                "max": 100
+              }
+            },
+            "nature_of_entitlement": {
+              "type": "string",
+              "required": true,
+              "status": "REQUIRED"
+            },
+            "trustee_or_owner": {
+              "type": "string",
+              "required": true,
+              "status": "REQUIRED"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "minor_nominee",
+      "name": "Minor Nominee Appointee",
+      "fields": [
+        {
+          "id": "appointee_name",
+          "label": "Name of Appointee",
+          "type": "string",
+          "required": false,
+          "status": "CONDITIONAL",
+          "conditional_on": {
+            "field": "nominee_is_minor",
+            "operator": "equals",
+            "value": true
+          },
+          "normalization": "person_name"
+        },
+        {
+          "id": "appointee_parent_spouse_name",
+          "label": "Appointee S/o, D/o, W/o Name",
+          "type": "string",
+          "required": false,
+          "status": "CONDITIONAL",
+          "conditional_on": {
+            "field": "nominee_is_minor",
+            "operator": "equals",
+            "value": true
+          },
+          "normalization": "person_name"
+        },
+        {
+          "id": "appointee_address",
+          "label": "Appointee Address",
+          "type": "string",
+          "required": false,
+          "status": "CONDITIONAL",
+          "conditional_on": {
+            "field": "nominee_is_minor",
+            "operator": "equals",
+            "value": true
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "witnesses",
+      "name": "Witnesses",
+      "fields": [
+        {
+          "id": "witnesses",
+          "label": "Witnesses",
+          "type": "array",
+          "required": false,
+          "status": "OPTIONAL",
+          "max_items": 2,
+          "item_schema": {
+            "name": {
+              "type": "string",
+              "required": true,
+              "status": "REQUIRED"
+            },
+            "address": {
+              "type": "string",
+              "required": true,
+              "status": "REQUIRED"
+            },
+            "signature": {
+              "type": "string",
+              "required": false,
+              "status": "MANUAL"
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "id": "manual_completion",
+      "name": "Manual Completion",
+      "fields": [
+        {
+          "id": "applicant_photograph",
+          "label": "Applicant Photograph",
+          "type": "image",
+          "required": true,
+          "status": "MANUAL"
+        },
+        {
+          "id": "guardian_signature",
+          "label": "Guardian Signature or Thumb Impression",
+          "type": "manual",
+          "required": true,
+          "status": "MANUAL"
+        },
+        {
+          "id": "specimen_signatures",
+          "label": "Specimen Signatures",
+          "type": "manual",
+          "required": false,
+          "status": "MANUAL"
+        }
+      ]
+    },
+
+    {
+      "id": "bank_only",
+      "name": "For Use of Bank",
+      "fields": [
+        {
+          "id": "bank_account_holder",
+          "label": "Account Holder Confirmation",
+          "type": "string",
+          "required": false,
+          "status": "BANK_ONLY"
+        },
+        {
+          "id": "bank_account_opening_date",
+          "label": "Account Opening Date",
+          "type": "date",
+          "required": false,
+          "status": "BANK_ONLY"
+        },
+        {
+          "id": "bank_initial_deposit",
+          "label": "Initial Deposit Recorded by Bank",
+          "type": "number",
+          "required": false,
+          "status": "BANK_ONLY"
+        },
+        {
+          "id": "bank_account_number",
+          "label": "Account Number",
+          "type": "string",
+          "required": false,
+          "status": "BANK_ONLY",
+          "sensitive": true
+        },
+        {
+          "id": "customer_identification_number",
+          "label": "Customer Identification Number",
+          "type": "string",
+          "required": false,
+          "status": "BANK_ONLY",
+          "sensitive": true
+        },
+        {
+          "id": "nomination_registration_number",
+          "label": "Nomination Registration Number",
+          "type": "string",
+          "required": false,
+          "status": "BANK_ONLY"
+        },
+        {
+          "id": "nomination_registration_date",
+          "label": "Nomination Registration Date",
+          "type": "date",
+          "required": false,
+          "status": "BANK_ONLY"
+        },
+        {
+          "id": "bank_signature_and_seal",
+          "label": "Signature and Seal of Competent Authority",
+          "type": "manual",
+          "required": false,
+          "status": "BANK_ONLY"
+        }
+      ]
+    }
+  ]
+}
